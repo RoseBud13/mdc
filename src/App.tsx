@@ -4,9 +4,13 @@ import html2pdf from 'html2pdf.js';
 import html2canvas from 'html2canvas';
 import './App.css';
 import { useUserAgent } from './utils/browser';
+import PasteIcon from './assets/icon/paste-icon';
+import CloseIcon from './assets/icon/close-square-icon';
 
 function App() {
-  const [markdown, setMarkdown] = useState('# Hello\n\nThis is **markdown**.');
+  const [markdown, setMarkdown] = useState(
+    '# Hi there\n\nThis is **MDC**, a simple markdown converter for making your AIGC content easier to share.'
+  );
   const [htmlContent, setHtmlContent] = useState<string>('');
   const previewRef = useRef<HTMLDivElement>(null);
 
@@ -26,6 +30,24 @@ function App() {
   // Handle markdown input changes
   const handleMarkdownChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMarkdown(e.target.value);
+  };
+
+  // Paste clipboard content function
+  const handlePaste = async () => {
+    try {
+      const clipboardText = await navigator.clipboard.readText();
+      setMarkdown(clipboardText);
+    } catch (error) {
+      console.error('Failed to paste from clipboard:', error);
+      alert(
+        'Unable to access clipboard. Please check your browser permissions.'
+      );
+    }
+  };
+
+  // Handel clear markdown textarea content
+  const handleClear = () => {
+    setMarkdown('');
   };
 
   // Export functions
@@ -154,7 +176,7 @@ function App() {
           <h1># </h1>
           <h1 style={{ color: '#03a7dd' }}>MDC</h1>
           <h2>onverter</h2>
-          <pre> markdown to everything</pre>
+          <pre> mark'em down to earth</pre>
         </div>
         <div className="app-body">
           <div className="export-buttons">
@@ -164,6 +186,14 @@ function App() {
           </div>
           <div className="app-content">
             <div className="markdown-area">
+              <div className="markdown-area-actions">
+                <button onClick={handlePaste}>
+                  <PasteIcon />
+                </button>
+                <button onClick={handleClear}>
+                  <CloseIcon />
+                </button>
+              </div>
               <textarea
                 value={markdown}
                 onChange={handleMarkdownChange}

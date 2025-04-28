@@ -87,19 +87,42 @@
 
 .markdown-area {
   width: 100%;
-  max-width: 650px;
+  max-width: 700px;
   height: 100%;
   background-color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+.markdown-area-actions {
+  width: 100%;
+  height: 40px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 10px;
+}
+
+.markdown-area-actions button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 23px;
+  color: #03a7dd;
+  transition: color 0.3s;
+}
+
+.markdown-area-actions button:hover {
+  color: #0287b3;
+}
+
 .markdown-area textarea {
   width: 100%;
-  height: 100%;
+  height: calc(100% - 40px);
   resize: none;
   border: none;
-  padding: 15px;
+  padding: 0 15px 15px 15px;
   font-family: monospace;
   font-size: 14px;
   color: #213547;
@@ -110,7 +133,7 @@
 
 .preview-area {
   width: 100%;
-  max-width: 650px;
+  max-width: 700px;
   height: 100%;
   padding: 15px;
   background-color: #f9f9f9;
@@ -146,26 +169,21 @@
   color: #555;
 }
 
-@media (max-width: 768px) {
-  .app-content {
-    flex-direction: column;
-    gap: 15px;
-  }
-
-  .markdown-area,
-  .preview-area {
-    max-width: 100%;
-  }
-}
-
-@media (max-width: 480px) {
+@media (max-width: 680px) {
   .app-body {
     flex-direction: column-reverse;
     justify-content: flex-end;
   }
 
   .app-content {
+    flex-direction: column;
+    gap: 15px;
     padding: 0;
     height: calc(100% - 20px - 27px);
+  }
+
+  .markdown-area,
+  .preview-area {
+    max-width: 100%;
   }
 }
