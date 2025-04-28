@@ -25,11 +25,6 @@
   position: relative;
 }
 
-ul,
-ol {
-  list-style: none;
-}
-
 a:hover,
 a:visited,
 a:link,
