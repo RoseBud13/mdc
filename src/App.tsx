@@ -120,7 +120,31 @@ function App() {
 
   const exportImage = () => {
     if (previewRef.current) {
-      html2canvas(previewRef.current, { scale: 2 }).then(canvas => {
+      // Save original styles to restore later
+      const originalOverflow = previewRef.current.style.overflow;
+      const originalHeight = previewRef.current.style.height;
+      const originalMaxHeight = previewRef.current.style.maxHeight;
+
+      // Temporarily modify the styles to capture entire content
+      previewRef.current.style.overflow = 'visible';
+      previewRef.current.style.height = 'auto';
+      previewRef.current.style.maxHeight = 'none';
+
+      html2canvas(previewRef.current, {
+        scale: 2,
+        height: previewRef.current.scrollHeight,
+        windowHeight: previewRef.current.scrollHeight,
+        scrollY: 0,
+        useCORS: true,
+        allowTaint: true
+      }).then(canvas => {
+        // Restore original styles
+        if (previewRef.current) {
+          previewRef.current.style.overflow = originalOverflow;
+          previewRef.current.style.height = originalHeight;
+          previewRef.current.style.maxHeight = originalMaxHeight;
+        }
+
         const img = canvas.toDataURL('image/png');
 
         if (isIOS) {
