@@ -11,6 +11,7 @@ import ImageIcon from './assets/icon/image-icon';
 import PdfIcon from './assets/icon/pdf-icon';
 import HtmlIcon from './assets/icon/code-icon';
 import SettingsFillIcon from './assets/icon/settings-fill-icon';
+import TextIcon from './assets/icon/text-icon';
 
 function App() {
   const [markdown, setMarkdown] = useState(
@@ -215,6 +216,43 @@ function App() {
     }
   };
 
+  const exportPlainText = () => {
+    try {
+      // Create a temporary element to parse markdown to HTML
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = htmlContent;
+
+      // Extract text content (removes HTML tags)
+      const plainText = tempDiv.textContent || tempDiv.innerText || '';
+
+      // Copy to clipboard
+      navigator.clipboard
+        .writeText(plainText)
+        .then(() => {
+          // Optional: show success feedback
+          const button = document.querySelector(
+            'button:has(TextIcon)'
+          ) as HTMLElement;
+          if (button) {
+            const originalBg = button.style.backgroundColor;
+            button.style.backgroundColor = '#4caf50';
+            setTimeout(() => {
+              button.style.backgroundColor = originalBg;
+            }, 500);
+          }
+        })
+        .catch(err => {
+          console.error('Failed to copy text to clipboard:', err);
+          alert(
+            'Unable to copy to clipboard. Please check browser permissions.'
+          );
+        });
+    } catch (error) {
+      console.error('Error processing text:', error);
+      alert('An error occurred while processing the text.');
+    }
+  };
+
   return (
     <>
       <div className="app-container">
@@ -260,6 +298,9 @@ function App() {
                 </button>
                 <button onClick={exportImage}>
                   <ImageIcon />
+                </button>
+                <button onClick={exportPlainText}>
+                  <TextIcon />
                 </button>
               </div>
               <div
