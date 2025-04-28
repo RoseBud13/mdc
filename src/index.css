@@ -1,4 +1,5 @@
 @import url('./assets/style/normalize.css');
+@import url('./assets/style/notion-theme.css');
 
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;

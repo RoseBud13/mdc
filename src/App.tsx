@@ -88,7 +88,7 @@ function App() {
             <div className="preview-area">
               <div
                 ref={previewRef}
-                className="preview-content"
+                className="preview-content notion-theme"
                 dangerouslySetInnerHTML={{ __html: htmlContent }}
               />
             </div>

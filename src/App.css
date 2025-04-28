@@ -6,15 +6,16 @@
   --header-height: 80px;
   --status-bar-height: var(--safe-area-inset-top, 0);
   --total-header-height: calc(var(--header-height) + var(--status-bar-height));
+  --total-footer-height: var(--safe-area-inset-bottom, 0);
 }
 
 .app-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   height: 100%;
-  padding: 0 1em;
+  padding: 0 1em var(--total-footer-height) 1em;
 }
 
 .app-header {
@@ -42,10 +43,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   width: 100%;
-  height: 100%;
-  gap: 10px;
+  height: calc(100% - var(--total-header-height) - var(--total-footer-height));
+  padding: 0 0 15px 0;
+  gap: 15px;
 }
 
 .export-buttons {
@@ -53,11 +55,13 @@
   justify-content: center;
   align-items: center;
   width: 100%;
+  height: 27px;
   gap: 10px;
-  flex: 1;
 }
 
 .export-buttons button {
+  height: 27px;
+  font-size: 0.9rem;
   padding: 5px 10px;
   background-color: #03a7dd;
   color: white;
@@ -76,19 +80,18 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  min-height: calc(100% - var(--total-header-height));
+  height: calc(100% - 27px - 15px);
   gap: 30px;
-  padding: 10px 20px 20px 20px;
+  padding: 0 20px;
 }
 
 .markdown-area {
   width: 100%;
-  max-width: 500px;
+  max-width: 650px;
   height: 100%;
   background-color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  overflow: auto;
 }
 
 .markdown-area textarea {
@@ -99,19 +102,21 @@
   padding: 15px;
   font-family: monospace;
   font-size: 14px;
+  color: #213547;
   outline: none;
   background-color: #f9f9f9;
+  overflow-y: auto;
 }
 
 .preview-area {
   width: 100%;
-  max-width: 500px;
+  max-width: 650px;
   height: 100%;
-  padding: 20px;
+  padding: 15px;
   background-color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  overflow: auto;
+  overflow-y: auto;
 }
 
 /* Styling for the preview area */
@@ -156,9 +161,11 @@
 @media (max-width: 480px) {
   .app-body {
     flex-direction: column-reverse;
+    justify-content: flex-end;
   }
 
   .app-content {
     padding: 0;
+    height: calc(100% - 20px - 27px);
   }
 }
