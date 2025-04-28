@@ -5,13 +5,16 @@ import html2canvas from 'html2canvas';
 import './App.css';
 import { useUserAgent } from './utils/browser';
 import PasteIcon from './assets/icon/paste-icon';
-import CloseIcon from './assets/icon/close-square-icon';
+import CloseSquareIcon from './assets/icon/close-square-icon';
+import CloseIcon from './assets/icon/close-icon';
 
 function App() {
   const [markdown, setMarkdown] = useState(
     '# Hi there 🔥\n\nThis is **MDC**, a simple markdown converter for making your AIGC content easier to share.🚀'
   );
   const [htmlContent, setHtmlContent] = useState<string>('');
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
   const previewRef = useRef<HTMLDivElement>(null);
 
   const { getDeviceType } = useUserAgent();
@@ -48,6 +51,21 @@ function App() {
   // Handel clear markdown textarea content
   const handleClear = () => {
     setMarkdown('');
+  };
+
+  // Toggle fullscreen preview
+  const toggleFullscreen = () => {
+    if (isFullscreen) {
+      setIsAnimating(false);
+      setTimeout(() => {
+        setIsFullscreen(false);
+      }, 300); // Match transition duration
+    } else {
+      setIsFullscreen(true);
+      setTimeout(() => {
+        setIsAnimating(true);
+      }, 50);
+    }
   };
 
   // Export functions
@@ -210,7 +228,7 @@ function App() {
                   <PasteIcon />
                 </button>
                 <button onClick={handleClear}>
-                  <CloseIcon />
+                  <CloseSquareIcon />
                 </button>
               </div>
               <textarea
@@ -229,11 +247,29 @@ function App() {
                 ref={previewRef}
                 className="preview-content notion-theme"
                 dangerouslySetInnerHTML={{ __html: htmlContent }}
+                onClick={toggleFullscreen}
               />
             </div>
           </div>
         </div>
       </div>
+
+      {isFullscreen && (
+        <div className={`fullscreen-overlay ${isAnimating ? 'visible' : ''}`}>
+          <button
+            className={`fullscreen-close ${isAnimating ? 'visible' : ''}`}
+            onClick={toggleFullscreen}
+          >
+            <CloseIcon />
+          </button>
+          <div
+            className={`fullscreen-content notion-theme ${
+              isAnimating ? 'visible' : ''
+            }`}
+            dangerouslySetInnerHTML={{ __html: htmlContent }}
+          />
+        </div>
+      )}
     </>
   );
 }
