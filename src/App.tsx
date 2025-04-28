@@ -3,11 +3,17 @@ import { marked } from 'marked';
 import html2pdf from 'html2pdf.js';
 import html2canvas from 'html2canvas';
 import './App.css';
+import { useUserAgent } from './utils/browser';
 
 function App() {
   const [markdown, setMarkdown] = useState('# Hello\n\nThis is **markdown**.');
   const [htmlContent, setHtmlContent] = useState<string>('');
   const previewRef = useRef<HTMLDivElement>(null);
+
+  const { getDeviceType } = useUserAgent();
+  const deviceType = getDeviceType();
+  const isIOS = deviceType === 'ios';
+  const isPC = deviceType === 'PC';
 
   // Update HTML content when markdown changes
   useEffect(() => {
@@ -37,14 +43,56 @@ function App() {
 
   const exportPDF = () => {
     if (previewRef.current) {
-      const options = {
-        margin: 10,
-        filename: 'exported.pdf',
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-      };
-      html2pdf().from(previewRef.current).set(options).save();
+      if (isIOS) {
+        // iOS share method for PDF
+        const options = {
+          margin: 10,
+          filename: 'exported.pdf',
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: { scale: 2 },
+          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+
+        html2pdf()
+          .from(previewRef.current)
+          .set(options)
+          .outputPdf()
+          .then((pdf: Uint8Array | ArrayBuffer) => {
+            const blob = new Blob([pdf], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+
+            // Use navigator.share API for iOS
+            if (navigator.share) {
+              navigator
+                .share({
+                  files: [
+                    new File([blob], 'exported.pdf', {
+                      type: 'application/pdf'
+                    })
+                  ],
+                  title: 'Export PDF'
+                })
+                .catch(error => {
+                  console.error('Error sharing PDF:', error);
+                  // Fallback if share fails
+                  window.open(url, '_blank');
+                });
+            } else {
+              // Fallback for older iOS versions
+              window.open(url, '_blank');
+            }
+          });
+      } else {
+        // Regular PDF download for non-iOS
+        const options = {
+          margin: 10,
+          filename: 'exported.pdf',
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: { scale: 2 },
+          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+        html2pdf().from(previewRef.current).set(options).save();
+      }
     }
   };
 
@@ -52,12 +100,49 @@ function App() {
     if (previewRef.current) {
       html2canvas(previewRef.current, { scale: 2 }).then(canvas => {
         const img = canvas.toDataURL('image/png');
-        const a = document.createElement('a');
-        a.href = img;
-        a.download = 'exported.png';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
+
+        if (isIOS) {
+          // Convert data URL to blob for iOS sharing
+          fetch(img)
+            .then(res => res.blob())
+            .then(blob => {
+              if (navigator.share) {
+                navigator
+                  .share({
+                    files: [
+                      new File([blob], 'exported.png', { type: 'image/png' })
+                    ],
+                    title: 'Export Image'
+                  })
+                  .catch(error => {
+                    console.error('Error sharing image:', error);
+                    // Fallback if share fails
+                    const a = document.createElement('a');
+                    a.href = img;
+                    a.download = 'exported.png';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                  });
+              } else {
+                // Fallback for older iOS versions
+                const a = document.createElement('a');
+                a.href = img;
+                a.download = 'exported.png';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+              }
+            });
+        } else {
+          // Regular download for non-iOS
+          const a = document.createElement('a');
+          a.href = img;
+          a.download = 'exported.png';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+        }
       });
     }
   };
@@ -73,7 +158,7 @@ function App() {
         </div>
         <div className="app-body">
           <div className="export-buttons">
-            <button onClick={exportHTML}>Export HTML</button>
+            {isPC && <button onClick={exportHTML}>Export HTML</button>}
             <button onClick={exportPDF}>Export PDF</button>
             <button onClick={exportImage}>Export Image</button>
           </div>
