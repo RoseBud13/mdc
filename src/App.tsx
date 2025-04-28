@@ -9,7 +9,7 @@ import CloseIcon from './assets/icon/close-square-icon';
 
 function App() {
   const [markdown, setMarkdown] = useState(
-    '# Hi there\n\nThis is **MDC**, a simple markdown converter for making your AIGC content easier to share.'
+    '# Hi there 🔥\n\nThis is **MDC**, a simple markdown converter for making your AIGC content easier to share.🚀'
   );
   const [htmlContent, setHtmlContent] = useState<string>('');
   const previewRef = useRef<HTMLDivElement>(null);
@@ -179,11 +179,6 @@ function App() {
           <pre> mark'em down to earth</pre>
         </div>
         <div className="app-body">
-          <div className="export-buttons">
-            {isPC && <button onClick={exportHTML}>Export HTML</button>}
-            <button onClick={exportPDF}>Export PDF</button>
-            <button onClick={exportImage}>Export Image</button>
-          </div>
           <div className="app-content">
             <div className="markdown-area">
               <div className="markdown-area-actions">
@@ -201,6 +196,11 @@ function App() {
               />
             </div>
             <div className="preview-area">
+              <div className="preview-area-actions">
+                {isPC && <button onClick={exportHTML}>HTML</button>}
+                <button onClick={exportPDF}>PDF</button>
+                <button onClick={exportImage}>Image</button>
+              </div>
               <div
                 ref={previewRef}
                 className="preview-content notion-theme"

@@ -22,7 +22,7 @@
   position: relative;
   width: 100%;
   height: var(--header-height);
-  padding: 10px 0;
+  padding: 10px 20px;
 }
 
 .app-header h1 {
@@ -41,38 +41,11 @@
 
 .app-body {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   width: 100%;
   height: calc(100% - var(--total-header-height) - var(--total-footer-height));
   padding: 0 0 15px 0;
-  gap: 15px;
-}
-
-.export-buttons {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 27px;
-  gap: 10px;
-}
-
-.export-buttons button {
-  height: 27px;
-  font-size: 0.9rem;
-  padding: 5px 10px;
-  background-color: #03a7dd;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.export-buttons button:hover {
-  background-color: #0287b3;
 }
 
 .app-content {
@@ -80,13 +53,13 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: calc(100% - 27px - 15px);
+  height: 100%;
   gap: 30px;
   padding: 0 20px;
 }
 
 .markdown-area {
-  width: 100%;
+  width: calc((100% - 20px - 20px - 30px) / 2);
   max-width: 700px;
   height: 100%;
   background-color: #f9f9f9;
@@ -132,17 +105,44 @@
 }
 
 .preview-area {
-  width: 100%;
+  width: calc((100% - 20px - 20px - 30px) / 2);
   max-width: 700px;
   height: 100%;
-  padding: 15px;
+  padding: 0 15px 15px 15px;
   background-color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  overflow-y: auto;
+}
+
+.preview-area-actions {
+  width: 100%;
+  height: 40px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 0;
+}
+
+.preview-area-actions button {
+  height: 22px;
+  font-size: 0.8rem;
+  padding: 2px 8px;
+  background-color: #03a7dd;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 /* Styling for the preview area */
+.preview-content {
+  width: 100%;
+  height: calc(100% - 40px);
+  overflow-y: auto;
+}
+
 .preview-content h1,
 .preview-content h2,
 .preview-content h3 {
@@ -170,6 +170,10 @@
 }
 
 @media (max-width: 680px) {
+  .app-header {
+    padding: 10px 0;
+  }
+
   .app-body {
     flex-direction: column-reverse;
     justify-content: flex-end;
@@ -179,11 +183,11 @@
     flex-direction: column;
     gap: 15px;
     padding: 0;
-    height: calc(100% - 20px - 27px);
   }
 
   .markdown-area,
   .preview-area {
-    max-width: 100%;
+    width: 100%;
+    height: calc((100% - 15px) / 2);
   }
 }
