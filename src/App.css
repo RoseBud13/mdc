@@ -23,20 +23,53 @@
   width: 100%;
   height: var(--header-height);
   padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.app-header h1 {
+.app-logo {
+  position: relative;
+  width: 70%;
+  height: 100%;
+}
+
+.app-logo h1 {
   display: inline;
   font-size: 24px;
+  font-weight: 900;
   margin: 0;
   padding: 0;
 }
 
-.app-header h2 {
+.app-logo h2 {
   display: inline;
   font-size: 20px;
+  font-weight: 800;
   margin: 0;
   padding: 0;
+}
+
+.app-logo pre {
+  margin-left: -10px;
+}
+
+.app-settings {
+  position: relative;
+  width: 30%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.app-settings button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 32px;
+  color: #03a7dd;
+  transition: color 0.3s;
 }
 
 .app-body {
@@ -125,15 +158,16 @@
 }
 
 .preview-area-actions button {
-  height: 22px;
-  font-size: 0.8rem;
-  padding: 2px 8px;
-  background-color: #03a7dd;
-  color: white;
+  background-color: transparent;
   border: none;
-  border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  font-size: 23px;
+  color: #03a7dd;
+  transition: color 0.3s;
+}
+
+.preview-area-actions button:hover {
+  color: #0287b3;
 }
 
 /* Styling for the preview area */
@@ -227,7 +261,7 @@
   justify-content: center;
   width: 40px;
   height: 40px;
-  background-color: rgba(55, 202, 255, 0.1);
+  background-color: rgba(0, 187, 255, 0.2);
   border-radius: 50%;
   transition: background-color 0.2s, opacity 0.3s ease-in-out;
   opacity: 0;
@@ -238,7 +272,7 @@
 }
 
 .fullscreen-close:hover {
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 187, 255, 0.4);
 }
 
 .fullscreen-content {

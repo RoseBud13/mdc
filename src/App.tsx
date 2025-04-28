@@ -7,6 +7,10 @@ import { useUserAgent } from './utils/browser';
 import PasteIcon from './assets/icon/paste-icon';
 import CloseSquareIcon from './assets/icon/close-square-icon';
 import CloseIcon from './assets/icon/close-icon';
+import ImageIcon from './assets/icon/image-icon';
+import PdfIcon from './assets/icon/pdf-icon';
+import HtmlIcon from './assets/icon/code-icon';
+import SettingsFillIcon from './assets/icon/settings-fill-icon';
 
 function App() {
   const [markdown, setMarkdown] = useState(
@@ -215,10 +219,17 @@ function App() {
     <>
       <div className="app-container">
         <div className="app-header">
-          <h1># </h1>
-          <h1 style={{ color: '#03a7dd' }}>MDC</h1>
-          <h2>onverter</h2>
-          <pre> mark'em down to earth</pre>
+          <div className="app-logo">
+            <h1># </h1>
+            <h1 style={{ color: '#03a7dd' }}>MDC</h1>
+            <h2>onverter</h2>
+            <pre> mark'em down to earth</pre>
+          </div>
+          <div className="app-settings">
+            <button>
+              <SettingsFillIcon />
+            </button>
+          </div>
         </div>
         <div className="app-body">
           <div className="app-content">
@@ -239,9 +250,17 @@ function App() {
             </div>
             <div className="preview-area">
               <div className="preview-area-actions">
-                {isPC && <button onClick={exportHTML}>HTML</button>}
-                <button onClick={exportPDF}>PDF</button>
-                <button onClick={exportImage}>Image</button>
+                {isPC && (
+                  <button onClick={exportHTML}>
+                    <HtmlIcon />
+                  </button>
+                )}
+                <button onClick={exportPDF}>
+                  <PdfIcon />
+                </button>
+                <button onClick={exportImage}>
+                  <ImageIcon />
+                </button>
               </div>
               <div
                 ref={previewRef}
