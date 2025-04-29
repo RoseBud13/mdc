@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { marked } from 'marked';
 import html2pdf from 'html2pdf.js';
 import html2canvas from 'html2canvas';
+import markdownDocx, { Packer } from 'markdown-docx';
 import './App.css';
 import { useUserAgent } from './utils/browser';
 import PasteIcon from './assets/icon/paste-icon';
@@ -12,6 +13,7 @@ import PdfIcon from './assets/icon/pdf-icon';
 import HtmlIcon from './assets/icon/code-icon';
 import SettingsFillIcon from './assets/icon/settings-fill-icon';
 import TextIcon from './assets/icon/text-icon';
+import DocIcon from './assets/icon/doc-icon';
 
 function App() {
   const [markdown, setMarkdown] = useState(
@@ -25,7 +27,6 @@ function App() {
   const { getDeviceType } = useUserAgent();
   const deviceType = getDeviceType();
   const isIOS = deviceType === 'ios';
-  const isPC = deviceType === 'PC';
 
   // Update HTML content when markdown changes
   useEffect(() => {
@@ -74,8 +75,54 @@ function App() {
   };
 
   // Export functions
-  const exportHTML = () => {
-    const blob = new Blob([htmlContent], { type: 'text/html' });
+  const exportHTML = async () => {
+    try {
+      // Show processing indicator
+      const button = document.querySelector(
+        'button:has(HtmlIcon)'
+      ) as HTMLButtonElement;
+      if (button) {
+        button.style.opacity = '0.7';
+        button.disabled = true;
+      }
+
+      // Create blob with HTML content
+      const blob = new Blob([htmlContent], { type: 'text/html' });
+
+      if (isIOS && navigator.share) {
+        // Use share API for iOS
+        try {
+          const file = new File([blob], 'exported.html', { type: 'text/html' });
+          await navigator.share({
+            files: [file],
+            title: 'Export HTML'
+          });
+        } catch (shareError) {
+          console.error('Error sharing HTML:', shareError);
+          // Fallback to direct download if sharing fails
+          downloadHtmlFile(blob);
+        }
+      } else {
+        // Regular download for other platforms
+        downloadHtmlFile(blob);
+      }
+    } catch (error) {
+      console.error('Failed to export HTML:', error);
+      alert('An error occurred while creating the HTML file.');
+    } finally {
+      // Reset button state
+      const button = document.querySelector(
+        'button:has(HtmlIcon)'
+      ) as HTMLButtonElement;
+      if (button) {
+        button.style.opacity = '1';
+        button.disabled = false;
+      }
+    }
+  };
+
+  // Helper function to handle the HTML download
+  const downloadHtmlFile = (blob: Blob) => {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -84,6 +131,92 @@ function App() {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
+
+    // Visual feedback
+    const button = document.querySelector(
+      'button:has(HtmlIcon)'
+    ) as HTMLElement;
+    if (button) {
+      const originalBg = button.style.backgroundColor;
+      button.style.backgroundColor = '#4caf50';
+      setTimeout(() => {
+        button.style.backgroundColor = originalBg;
+      }, 500);
+    }
+  };
+
+  const exportDocx = async () => {
+    try {
+      // Show processing indicator
+      const button = document.querySelector(
+        'button:has(DocIcon)'
+      ) as HTMLButtonElement;
+      if (button) {
+        button.style.opacity = '0.7';
+        button.disabled = true;
+      }
+
+      // Convert to docx
+      const doc = await markdownDocx(markdown);
+
+      // Generate blob for download
+      const blob = await Packer.toBlob(doc);
+
+      if (isIOS && navigator.share) {
+        // Use share API for iOS
+        try {
+          const file = new File([blob], 'exported.docx', {
+            type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+          });
+
+          await navigator.share({
+            files: [file],
+            title: 'Export DOCX'
+          });
+        } catch (shareError) {
+          console.error('Error sharing DOCX:', shareError);
+          // Fallback to direct download if sharing fails
+          downloadDocxFile(blob);
+        }
+      } else {
+        // Regular download for other platforms
+        downloadDocxFile(blob);
+      }
+    } catch (error) {
+      console.error('Failed to export DOCX:', error);
+      alert('An error occurred while creating the DOCX file.');
+    } finally {
+      // Reset button state
+      const button = document.querySelector(
+        'button:has(DocIcon)'
+      ) as HTMLButtonElement;
+      if (button) {
+        button.style.opacity = '1';
+        button.disabled = false;
+      }
+    }
+  };
+
+  // Helper function to handle the download
+  const downloadDocxFile = (blob: Blob) => {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'exported.docx';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    // Visual feedback
+    const button = document.querySelector('button:has(DocIcon)') as HTMLElement;
+    if (button) {
+      const originalBg = button.style.backgroundColor;
+      button.style.backgroundColor = '#4caf50';
+      setTimeout(() => {
+        button.style.backgroundColor = originalBg;
+      }, 500);
+    }
   };
 
   const exportPDF = () => {
@@ -288,11 +421,12 @@ function App() {
             </div>
             <div className="preview-area">
               <div className="preview-area-actions">
-                {isPC && (
-                  <button onClick={exportHTML}>
-                    <HtmlIcon />
-                  </button>
-                )}
+                <button onClick={exportHTML}>
+                  <HtmlIcon />
+                </button>
+                <button onClick={exportDocx}>
+                  <DocIcon />
+                </button>
                 <button onClick={exportPDF}>
                   <PdfIcon />
                 </button>
