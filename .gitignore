@@ -23,3 +23,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# 忽略根目录的 assets，但允许子目录中的 assets
+/assets/
