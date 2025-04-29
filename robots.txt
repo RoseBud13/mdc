@@ -1,0 +1,17 @@
+# Robots.txt file
+# This file is used to instruct web crawlers on how to index your website.
+# It applies to all compliant search engines.
+
+User-agent: *
+# Block access to the admin area
+Disallow: /admin/
+# Block access to temporary files
+Disallow: /temp/
+# Allow everything else
+Allow: /
+
+# Delay between requests (optional, for polite crawling)
+Crawl-delay: 10
+
+# Sitemap location (replace with your actual sitemap URL)
+# Sitemap: https://www.example.com/sitemap.xml
