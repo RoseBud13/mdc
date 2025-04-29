@@ -14,6 +14,8 @@ import HtmlIcon from './assets/icon/code-icon';
 import SettingsFillIcon from './assets/icon/settings-fill-icon';
 import TextIcon from './assets/icon/text-icon';
 import DocIcon from './assets/icon/doc-icon';
+import Toast from './components/Toast';
+import ExportModal from './components/ExportModal';
 
 function App() {
   const [markdown, setMarkdown] = useState(
@@ -23,6 +25,21 @@ function App() {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const previewRef = useRef<HTMLDivElement>(null);
+
+  // Toast state
+  const [toast, setToast] = useState({
+    isVisible: false,
+    message: '',
+    type: 'success' as 'success' | 'error'
+  });
+
+  // Modal state
+  const [modal, setModal] = useState({
+    isOpen: false,
+    fileType: '',
+    exportFunction: () => {},
+    fileIcon: (<></>) as React.ReactElement
+  });
 
   const { getDeviceType } = useUserAgent();
   const deviceType = getDeviceType();
@@ -36,6 +53,51 @@ function App() {
     }
   }, [markdown]);
 
+  // Toast helpers
+  const showToast = (message: string, type: 'success' | 'error') => {
+    setToast({
+      isVisible: true,
+      message,
+      type
+    });
+  };
+
+  const hideToast = () => {
+    setToast(prev => ({ ...prev, isVisible: false }));
+  };
+
+  // Modal helpers
+  const showExportModal = (
+    fileType: string,
+    exportFunction: () => void,
+    fileIcon: React.ReactElement
+  ) => {
+    setModal({
+      isOpen: true,
+      fileType,
+      exportFunction,
+      fileIcon
+    });
+  };
+
+  const closeModal = () => {
+    setModal(prev => ({ ...prev, isOpen: false }));
+  };
+
+  const confirmExport = async () => {
+    closeModal();
+    try {
+      modal.exportFunction();
+      showToast(
+        `Your content was successfully exported as ${modal.fileType}`,
+        'success'
+      );
+    } catch (error) {
+      console.error(`Failed to export ${modal.fileType}:`, error);
+      showToast(`Failed to export as ${modal.fileType}`, 'error');
+    }
+  };
+
   // Handle markdown input changes
   const handleMarkdownChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMarkdown(e.target.value);
@@ -46,10 +108,12 @@ function App() {
     try {
       const clipboardText = await navigator.clipboard.readText();
       setMarkdown(clipboardText);
+      showToast('Content pasted successfully', 'success');
     } catch (error) {
       console.error('Failed to paste from clipboard:', error);
-      alert(
-        'Unable to access clipboard. Please check your browser permissions.'
+      showToast(
+        'Unable to access clipboard. Please check your browser permissions.',
+        'error'
       );
     }
   };
@@ -57,6 +121,7 @@ function App() {
   // Handel clear markdown textarea content
   const handleClear = () => {
     setMarkdown('');
+    showToast('Content cleared', 'success');
   };
 
   // Toggle fullscreen preview
@@ -311,10 +376,28 @@ function App() {
 
       // Copy to clipboard
       await navigator.clipboard.writeText(plainText);
+      showToast('Plain text copied to clipboard', 'success');
     } catch (error) {
       console.error('Error processing text:', error);
-      alert('An error occurred while processing the text.');
+      showToast('Failed to copy text to clipboard', 'error');
     }
+  };
+
+  // Handle export button clicks
+  const handleExportHTML = () => {
+    showExportModal('HTML', exportHTML, <HtmlIcon />);
+  };
+
+  const handleExportDocx = () => {
+    showExportModal('DOCX', exportDocx, <DocIcon />);
+  };
+
+  const handleExportPDF = () => {
+    showExportModal('PDF', exportPDF, <PdfIcon />);
+  };
+
+  const handleExportImage = () => {
+    showExportModal('PNG Image', exportImage, <ImageIcon />);
   };
 
   return (
@@ -352,16 +435,16 @@ function App() {
             </div>
             <div className="preview-area">
               <div className="preview-area-actions">
-                <button onClick={exportHTML}>
+                <button onClick={handleExportHTML}>
                   <HtmlIcon />
                 </button>
-                <button onClick={exportDocx}>
+                <button onClick={handleExportDocx}>
                   <DocIcon />
                 </button>
-                <button onClick={exportPDF}>
+                <button onClick={handleExportPDF}>
                   <PdfIcon />
                 </button>
-                <button onClick={exportImage}>
+                <button onClick={handleExportImage}>
                   <ImageIcon />
                 </button>
                 <button onClick={exportPlainText}>
@@ -395,6 +478,24 @@ function App() {
           />
         </div>
       )}
+
+      {/* Toast component */}
+      <Toast
+        message={toast.message}
+        type={toast.type}
+        isVisible={toast.isVisible}
+        onClose={hideToast}
+      />
+
+      {/* Export Modal component */}
+      <ExportModal
+        isOpen={modal.isOpen}
+        onClose={closeModal}
+        onConfirm={confirmExport}
+        fileType={modal.fileType}
+        fileIcon={modal.fileIcon}
+        description={`Your content will be exported as a ${modal.fileType} file. Continue?`}
+      />
     </>
   );
 }
