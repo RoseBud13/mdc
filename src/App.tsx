@@ -77,15 +77,6 @@ function App() {
   // Export functions
   const exportHTML = async () => {
     try {
-      // Show processing indicator
-      const button = document.querySelector(
-        'button:has(HtmlIcon)'
-      ) as HTMLButtonElement;
-      if (button) {
-        button.style.opacity = '0.7';
-        button.disabled = true;
-      }
-
       // Create blob with HTML content
       const blob = new Blob([htmlContent], { type: 'text/html' });
 
@@ -109,15 +100,6 @@ function App() {
     } catch (error) {
       console.error('Failed to export HTML:', error);
       alert('An error occurred while creating the HTML file.');
-    } finally {
-      // Reset button state
-      const button = document.querySelector(
-        'button:has(HtmlIcon)'
-      ) as HTMLButtonElement;
-      if (button) {
-        button.style.opacity = '1';
-        button.disabled = false;
-      }
     }
   };
 
@@ -131,31 +113,10 @@ function App() {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-
-    // Visual feedback
-    const button = document.querySelector(
-      'button:has(HtmlIcon)'
-    ) as HTMLElement;
-    if (button) {
-      const originalBg = button.style.backgroundColor;
-      button.style.backgroundColor = '#4caf50';
-      setTimeout(() => {
-        button.style.backgroundColor = originalBg;
-      }, 500);
-    }
   };
 
   const exportDocx = async () => {
     try {
-      // Show processing indicator
-      const button = document.querySelector(
-        'button:has(DocIcon)'
-      ) as HTMLButtonElement;
-      if (button) {
-        button.style.opacity = '0.7';
-        button.disabled = true;
-      }
-
       // Convert to docx
       const doc = await markdownDocx(markdown);
 
@@ -185,19 +146,10 @@ function App() {
     } catch (error) {
       console.error('Failed to export DOCX:', error);
       alert('An error occurred while creating the DOCX file.');
-    } finally {
-      // Reset button state
-      const button = document.querySelector(
-        'button:has(DocIcon)'
-      ) as HTMLButtonElement;
-      if (button) {
-        button.style.opacity = '1';
-        button.disabled = false;
-      }
     }
   };
 
-  // Helper function to handle the download
+  // Helper function to handle the DOCX download
   const downloadDocxFile = (blob: Blob) => {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -207,93 +159,91 @@ function App() {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-
-    // Visual feedback
-    const button = document.querySelector('button:has(DocIcon)') as HTMLElement;
-    if (button) {
-      const originalBg = button.style.backgroundColor;
-      button.style.backgroundColor = '#4caf50';
-      setTimeout(() => {
-        button.style.backgroundColor = originalBg;
-      }, 500);
-    }
   };
 
-  const exportPDF = () => {
+  const exportPDF = async () => {
     if (previewRef.current) {
-      if (isIOS) {
-        // iOS share method for PDF
-        const options = {
-          margin: 10,
-          filename: 'exported.pdf',
-          image: { type: 'jpeg', quality: 0.98 },
-          html2canvas: { scale: 2 },
-          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-        };
+      try {
+        if (isIOS) {
+          // iOS share method for PDF
+          const options = {
+            margin: 10,
+            filename: 'exported.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+          };
 
-        html2pdf()
-          .from(previewRef.current)
-          .set(options)
-          .outputPdf()
-          .then((pdf: Uint8Array | ArrayBuffer) => {
-            const blob = new Blob([pdf], { type: 'application/pdf' });
-            const url = URL.createObjectURL(blob);
+          const pdf = await html2pdf()
+            .from(previewRef.current)
+            .set(options)
+            .outputPdf();
 
-            // Use navigator.share API for iOS
-            if (navigator.share) {
-              navigator
-                .share({
-                  files: [
-                    new File([blob], 'exported.pdf', {
-                      type: 'application/pdf'
-                    })
-                  ],
-                  title: 'Export PDF'
-                })
-                .catch(error => {
-                  console.error('Error sharing PDF:', error);
-                  // Fallback if share fails
-                  window.open(url, '_blank');
-                });
-            } else {
-              // Fallback for older iOS versions
+          const blob = new Blob([pdf], { type: 'application/pdf' });
+
+          // Use navigator.share API for iOS
+          if (navigator.share) {
+            try {
+              await navigator.share({
+                files: [
+                  new File([blob], 'exported.pdf', {
+                    type: 'application/pdf'
+                  })
+                ],
+                title: 'Export PDF'
+              });
+            } catch (error) {
+              console.error('Error sharing PDF:', error);
+              // Fallback if share fails
+              const url = URL.createObjectURL(blob);
               window.open(url, '_blank');
             }
-          });
-      } else {
-        // Regular PDF download for non-iOS
-        const options = {
-          margin: 10,
-          filename: 'exported.pdf',
-          image: { type: 'jpeg', quality: 0.98 },
-          html2canvas: { scale: 2 },
-          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-        };
-        html2pdf().from(previewRef.current).set(options).save();
+          } else {
+            // Fallback for older iOS versions
+            const url = URL.createObjectURL(blob);
+            window.open(url, '_blank');
+          }
+        } else {
+          // Regular PDF download for non-iOS
+          const options = {
+            margin: 10,
+            filename: 'exported.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+          };
+
+          await html2pdf().from(previewRef.current).set(options).save();
+        }
+      } catch (error) {
+        console.error('Failed to export PDF:', error);
+        alert('An error occurred while creating the PDF file.');
       }
     }
   };
 
-  const exportImage = () => {
+  const exportImage = async () => {
     if (previewRef.current) {
-      // Save original styles to restore later
-      const originalOverflow = previewRef.current.style.overflow;
-      const originalHeight = previewRef.current.style.height;
-      const originalMaxHeight = previewRef.current.style.maxHeight;
+      try {
+        // Save original styles to restore later
+        const originalOverflow = previewRef.current.style.overflow;
+        const originalHeight = previewRef.current.style.height;
+        const originalMaxHeight = previewRef.current.style.maxHeight;
 
-      // Temporarily modify the styles to capture entire content
-      previewRef.current.style.overflow = 'visible';
-      previewRef.current.style.height = 'auto';
-      previewRef.current.style.maxHeight = 'none';
+        // Temporarily modify the styles to capture entire content
+        previewRef.current.style.overflow = 'visible';
+        previewRef.current.style.height = 'auto';
+        previewRef.current.style.maxHeight = 'none';
 
-      html2canvas(previewRef.current, {
-        scale: 2,
-        height: previewRef.current.scrollHeight,
-        windowHeight: previewRef.current.scrollHeight,
-        scrollY: 0,
-        useCORS: true,
-        allowTaint: true
-      }).then(canvas => {
+        const canvas = await html2canvas(previewRef.current, {
+          scale: 2,
+          height: previewRef.current.scrollHeight,
+          windowHeight: previewRef.current.scrollHeight,
+          scrollY: 0,
+          useCORS: true,
+          allowTaint: true
+        });
+
         // Restore original styles
         if (previewRef.current) {
           previewRef.current.style.overflow = originalOverflow;
@@ -305,37 +255,35 @@ function App() {
 
         if (isIOS) {
           // Convert data URL to blob for iOS sharing
-          fetch(img)
-            .then(res => res.blob())
-            .then(blob => {
-              if (navigator.share) {
-                navigator
-                  .share({
-                    files: [
-                      new File([blob], 'exported.png', { type: 'image/png' })
-                    ],
-                    title: 'Export Image'
-                  })
-                  .catch(error => {
-                    console.error('Error sharing image:', error);
-                    // Fallback if share fails
-                    const a = document.createElement('a');
-                    a.href = img;
-                    a.download = 'exported.png';
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                  });
-              } else {
-                // Fallback for older iOS versions
-                const a = document.createElement('a');
-                a.href = img;
-                a.download = 'exported.png';
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-              }
-            });
+          const blob = await (await fetch(img)).blob();
+
+          if (navigator.share) {
+            try {
+              await navigator.share({
+                files: [
+                  new File([blob], 'exported.png', { type: 'image/png' })
+                ],
+                title: 'Export Image'
+              });
+            } catch (error) {
+              console.error('Error sharing image:', error);
+              // Fallback if share fails
+              const a = document.createElement('a');
+              a.href = img;
+              a.download = 'exported.png';
+              document.body.appendChild(a);
+              a.click();
+              document.body.removeChild(a);
+            }
+          } else {
+            // Fallback for older iOS versions
+            const a = document.createElement('a');
+            a.href = img;
+            a.download = 'exported.png';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+          }
         } else {
           // Regular download for non-iOS
           const a = document.createElement('a');
@@ -345,11 +293,14 @@ function App() {
           a.click();
           document.body.removeChild(a);
         }
-      });
+      } catch (error) {
+        console.error('Failed to export image:', error);
+        alert('An error occurred while creating the image file.');
+      }
     }
   };
 
-  const exportPlainText = () => {
+  const exportPlainText = async () => {
     try {
       // Create a temporary element to parse markdown to HTML
       const tempDiv = document.createElement('div');
@@ -359,27 +310,7 @@ function App() {
       const plainText = tempDiv.textContent || tempDiv.innerText || '';
 
       // Copy to clipboard
-      navigator.clipboard
-        .writeText(plainText)
-        .then(() => {
-          // Optional: show success feedback
-          const button = document.querySelector(
-            'button:has(TextIcon)'
-          ) as HTMLElement;
-          if (button) {
-            const originalBg = button.style.backgroundColor;
-            button.style.backgroundColor = '#4caf50';
-            setTimeout(() => {
-              button.style.backgroundColor = originalBg;
-            }, 500);
-          }
-        })
-        .catch(err => {
-          console.error('Failed to copy text to clipboard:', err);
-          alert(
-            'Unable to copy to clipboard. Please check browser permissions.'
-          );
-        });
+      await navigator.clipboard.writeText(plainText);
     } catch (error) {
       console.error('Error processing text:', error);
       alert('An error occurred while processing the text.');
