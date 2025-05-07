@@ -50,3 +50,11 @@ export function useUserAgent(): {
 
   return { getDeviceType, isPwa };
 }
+
+/* Update HTML title tag when language changes */
+export function updateTitleTag(title: string): void {
+  const titleTag = document.querySelector('title');
+  if (titleTag) {
+    titleTag.innerHTML = title;
+  }
+}

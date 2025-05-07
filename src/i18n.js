@@ -1,6 +1,7 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
+import { updateTitleTag } from './utils/browser';
 import zhCommon from './locales/zh/common.json';
 import enCommon from './locales/en/common.json';
 
@@ -29,9 +30,19 @@ i18n
 // Set the language attribute on the html element
 document.documentElement.lang = i18n.language;
 
-// Listen for language changes and update the lang attribute
+// Update the document title based on the current language
+const updateDocumentTitle = () => {
+  const titleKey = 'common:appName';
+  const title = i18n.t(titleKey);
+  updateTitleTag(title);
+};
+// Initial document title update
+updateDocumentTitle();
+
+// Listen for language changes and update the lang attribute and document title
 i18n.on('languageChanged', lng => {
   document.documentElement.lang = lng;
+  updateDocumentTitle();
 });
 
 export default i18n;
