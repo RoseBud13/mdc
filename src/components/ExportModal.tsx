@@ -1,4 +1,5 @@
 import React from 'react';
+import { Trans } from 'react-i18next';
 import '../assets/style/ExportModal.css';
 import CloseIcon from '../assets/icon/close-icon';
 
@@ -8,6 +9,7 @@ interface ExportModalProps {
   onConfirm: () => void;
   fileType: string;
   fileIcon: React.ReactNode;
+  title?: string;
   description?: string;
 }
 
@@ -17,6 +19,7 @@ const ExportModal: React.FC<ExportModalProps> = ({
   onConfirm,
   fileType,
   fileIcon,
+  title = `Export as ${fileType}`,
   description = `Your content will be exported as a ${fileType} file.`
 }) => {
   if (!isOpen) return null;
@@ -31,16 +34,16 @@ const ExportModal: React.FC<ExportModalProps> = ({
         <div className="modal-content">
           <div className="modal-icon">{fileIcon}</div>
 
-          <h3 className="modal-title">Export as {fileType}</h3>
+          <h3 className="modal-title">{title}</h3>
 
           <p className="modal-description">{description}</p>
 
           <div className="modal-actions">
             <button className="modal-button cancel" onClick={onClose}>
-              Cancel
+              <Trans i18nKey="button.cancel" />
             </button>
             <button className="modal-button confirm" onClick={onConfirm}>
-              Export
+              <Trans i18nKey="button.export" />
             </button>
           </div>
         </div>

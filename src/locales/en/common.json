@@ -1,0 +1,49 @@
+{
+  "slogan": "mark'em down to earth",
+  "description": "# Hi there 🔥\n\nThis is **MDC**, a simple `markdown` converter for making your AIGC content easier to share.🚀",
+  "placeholder": {
+    "markdownTextarea": "Write your markdown here..."
+  },
+  "button": {
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "close": "Close",
+    "ok": "OK",
+    "export": "Export",
+    "download": "Download",
+    "copy": "Copy",
+    "paste": "Paste",
+    "clear": "Clear",
+    "select": "Select",
+    "selectAll": "Select All",
+    "selectNone": "Select None"
+  },
+  "toast": {
+    "pasted": "Content pasted successfully",
+    "pasteError": "Unable to access clipboard. Please check your browser permissions.",
+    "copied": "Content copied successfully",
+    "copyError": "Unable to access clipboard. Please check your browser permissions.",
+    "contentCleared": "Content cleared"
+  },
+  "modal": {
+    "export": {
+      "title": "Export as {{fileType}}",
+      "description": "Your content will be exported as a {{fileType}} file. Continue?"
+    }
+  },
+  "export": {
+    "exporting": "Exporting...",
+    "exportSuccess": "Your content was successfully exported as {{fileType}}",
+    "exportFailed": "Failed to export as {{fileType}}",
+    "exportPlainTextSuccess": "Plain text copied to clipboard",
+    "exportPlainTextFailed": "Failed to copy plain text to clipboard",
+    "fileType": {
+      "html": "HTML Webpage",
+      "docx": "DOCX Word Document",
+      "pdf": "PDF Document",
+      "txt": "Plain Text",
+      "png": "PNG Image",
+      "jpg": "JPG Image"
+    }
+  }
+}

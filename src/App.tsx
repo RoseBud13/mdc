@@ -3,6 +3,7 @@ import { marked } from 'marked';
 import html2pdf from 'html2pdf.js';
 import html2canvas from 'html2canvas';
 import markdownDocx, { Packer } from 'markdown-docx';
+import { useTranslation } from 'react-i18next';
 import './App.css';
 import { useUserAgent } from './utils/browser';
 import PasteIcon from './assets/icon/paste-icon';
@@ -18,9 +19,9 @@ import Toast from './components/Toast';
 import ExportModal from './components/ExportModal';
 
 function App() {
-  const [markdown, setMarkdown] = useState(
-    '# Hi there 🔥\n\nThis is **MDC**, a simple markdown converter for making your AIGC content easier to share.🚀'
-  );
+  const { t } = useTranslation();
+
+  const [markdown, setMarkdown] = useState(t('description') as string);
   const [htmlContent, setHtmlContent] = useState<string>('');
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
@@ -89,12 +90,17 @@ function App() {
     try {
       modal.exportFunction();
       showToast(
-        `Your content was successfully exported as ${modal.fileType}`,
+        t('export.exportSuccess', {
+          fileType: modal.fileType
+        }),
         'success'
       );
     } catch (error) {
       console.error(`Failed to export ${modal.fileType}:`, error);
-      showToast(`Failed to export as ${modal.fileType}`, 'error');
+      showToast(
+        t('export.exportFailed', { fileType: modal.fileType }),
+        'error'
+      );
     }
   };
 
@@ -108,20 +114,17 @@ function App() {
     try {
       const clipboardText = await navigator.clipboard.readText();
       setMarkdown(clipboardText);
-      showToast('Content pasted successfully', 'success');
+      showToast(t('toast.pasted'), 'success');
     } catch (error) {
       console.error('Failed to paste from clipboard:', error);
-      showToast(
-        'Unable to access clipboard. Please check your browser permissions.',
-        'error'
-      );
+      showToast(t('toast.pasteError'), 'error');
     }
   };
 
   // Handel clear markdown textarea content
   const handleClear = () => {
     setMarkdown('');
-    showToast('Content cleared', 'success');
+    showToast(t('toast.contentCleared'), 'success');
   };
 
   // Toggle fullscreen preview
@@ -376,28 +379,28 @@ function App() {
 
       // Copy to clipboard
       await navigator.clipboard.writeText(plainText);
-      showToast('Plain text copied to clipboard', 'success');
+      showToast(t('export.exportPlainTextSuccess'), 'success');
     } catch (error) {
       console.error('Error processing text:', error);
-      showToast('Failed to copy text to clipboard', 'error');
+      showToast(t('export.exportPlainTextFailed'), 'error');
     }
   };
 
   // Handle export button clicks
   const handleExportHTML = () => {
-    showExportModal('HTML', exportHTML, <HtmlIcon />);
+    showExportModal(t('export.fileType.html'), exportHTML, <HtmlIcon />);
   };
 
   const handleExportDocx = () => {
-    showExportModal('DOCX', exportDocx, <DocIcon />);
+    showExportModal(t('export.fileType.docx'), exportDocx, <DocIcon />);
   };
 
   const handleExportPDF = () => {
-    showExportModal('PDF', exportPDF, <PdfIcon />);
+    showExportModal(t('export.fileType.pdf'), exportPDF, <PdfIcon />);
   };
 
   const handleExportImage = () => {
-    showExportModal('PNG Image', exportImage, <ImageIcon />);
+    showExportModal(t('export.fileType.png'), exportImage, <ImageIcon />);
   };
 
   return (
@@ -408,7 +411,7 @@ function App() {
             <h1># </h1>
             <h1 style={{ color: '#03a7dd' }}>MDC</h1>
             <h2>onverter</h2>
-            <pre> mark'em down to earth</pre>
+            <pre>{t('slogan')}</pre>
           </div>
           <div className="app-settings">
             <button>
@@ -430,7 +433,7 @@ function App() {
               <textarea
                 value={markdown}
                 onChange={handleMarkdownChange}
-                placeholder="Write your markdown here..."
+                placeholder={t('placeholder.markdownTextarea')}
               />
             </div>
             <div className="preview-area">
@@ -494,7 +497,12 @@ function App() {
         onConfirm={confirmExport}
         fileType={modal.fileType}
         fileIcon={modal.fileIcon}
-        description={`Your content will be exported as a ${modal.fileType} file. Continue?`}
+        title={t('modal.export.title', {
+          fileType: modal.fileType
+        })}
+        description={t('modal.export.description', {
+          fileType: modal.fileType.split(' ')[0]
+        })}
       />
     </>
   );

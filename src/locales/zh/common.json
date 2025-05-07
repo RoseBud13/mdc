@@ -1,0 +1,49 @@
+{
+  "slogan": "丝滑分享你的AI回答",
+  "description": "# 你好呀 🔥\n\n这是 **MDC**，一个简单的 `Markdown` 转换器，让 AI 回答的内容更容易被分享。🚀",
+  "placeholder": {
+    "markdownTextarea": "在这里写下你的 Markdown..."
+  },
+  "button": {
+    "cancel": "取消",
+    "confirm": "确认",
+    "close": "关闭",
+    "ok": "好的",
+    "export": "导出",
+    "download": "下载",
+    "copy": "复制",
+    "paste": "粘贴",
+    "clear": "清除",
+    "select": "选择",
+    "selectAll": "全选",
+    "selectNone": "全不选"
+  },
+  "toast": {
+    "pasted": "内容已成功粘贴",
+    "pasteError": "无法访问剪贴板。请检查浏览器权限。",
+    "copied": "内容已成功复制",
+    "copyError": "无法访问剪贴板。请检查浏览器权限。",
+    "contentCleared": "内容已清除"
+  },
+  "modal": {
+    "export": {
+      "title": "导出为 {{fileType}}",
+      "description": "你的内容将被导出为 {{fileType}} 文件。是否继续？"
+    }
+  },
+  "export": {
+    "exporting": "导出中...",
+    "exportSuccess": "你的内容已成功导出为 {{fileType}}",
+    "exportFailed": "导出为 {{fileType}} 失败",
+    "exportPlainTextSuccess": "纯文本已复制到剪贴板",
+    "exportPlainTextFailed": "复制纯文本到剪贴板失败",
+    "fileType": {
+      "html": "HTML 网页",
+      "docx": "DOCX Word 文档",
+      "pdf": "PDF 文档",
+      "txt": "纯文本",
+      "png": "PNG 图片",
+      "jpg": "JPG 图片"
+    }
+  }
+}
