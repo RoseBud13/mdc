@@ -17,9 +17,10 @@ import TextIcon from './assets/icon/text-icon';
 import DocIcon from './assets/icon/doc-icon';
 import Toast from './components/Toast';
 import ExportModal from './components/ExportModal';
+import SettingsDrawer from './components/SettingsDrawer';
 
 function App() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const [markdown, setMarkdown] = useState(t('description') as string);
   const [htmlContent, setHtmlContent] = useState<string>('');
@@ -42,6 +43,13 @@ function App() {
     fileIcon: (<></>) as React.ReactElement
   });
 
+  // Settings drawer state
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+
+  const toggleSettings = () => {
+    setIsSettingsOpen(!isSettingsOpen);
+  };
+
   const { getDeviceType } = useUserAgent();
   const deviceType = getDeviceType();
   const isIOS = deviceType === 'ios';
@@ -53,6 +61,19 @@ function App() {
       setHtmlContent(result);
     }
   }, [markdown]);
+
+  // Update the markdown content when language changes
+  useEffect(() => {
+    // Only update if the markdown content is equal to the translated description
+    // This prevents overwriting user-entered content
+    const currentDescription = t('description') as string;
+    if (
+      markdown ===
+      t('description', { lng: i18n.language === 'en' ? 'zh' : 'en' })
+    ) {
+      setMarkdown(currentDescription);
+    }
+  }, [i18n.language, t, markdown]);
 
   // Toast helpers
   const showToast = (message: string, type: 'success' | 'error') => {
@@ -414,7 +435,7 @@ function App() {
             <pre>{t('slogan')}</pre>
           </div>
           <div className="app-settings">
-            <button>
+            <button onClick={toggleSettings}>
               <SettingsFillIcon />
             </button>
           </div>
@@ -434,6 +455,7 @@ function App() {
                 value={markdown}
                 onChange={handleMarkdownChange}
                 placeholder={t('placeholder.markdownTextarea')}
+                key={`textarea-${i18n.language}`} // Add a key that changes with language
               />
             </div>
             <div className="preview-area">
@@ -503,6 +525,12 @@ function App() {
         description={t('modal.export.description', {
           fileType: modal.fileType.split(' ')[0]
         })}
+      />
+
+      {/* Settings Drawer component */}
+      <SettingsDrawer
+        isOpen={isSettingsOpen}
+        onClose={() => setIsSettingsOpen(false)}
       />
     </>
   );

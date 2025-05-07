@@ -45,5 +45,12 @@
       "png": "PNG Image",
       "jpg": "JPG Image"
     }
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "theme": "Theme",
+    "lightTheme": "Light",
+    "darkTheme": "Dark"
   }
 }

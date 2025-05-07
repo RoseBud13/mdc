@@ -45,5 +45,12 @@
       "png": "PNG 图片",
       "jpg": "JPG 图片"
     }
+  },
+  "settings": {
+    "title": "设置",
+    "language": "语言",
+    "theme": "主题",
+    "lightTheme": "浅色",
+    "darkTheme": "深色"
   }
 }
