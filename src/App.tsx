@@ -11,7 +11,7 @@ import CloseSquareIcon from './assets/icon/close-square-icon';
 import CloseIcon from './assets/icon/close-icon';
 import ImageIcon from './assets/icon/image-icon';
 import PdfIcon from './assets/icon/pdf-icon';
-import HtmlIcon from './assets/icon/code-icon';
+import HtmlIcon from './assets/icon/html-icon';
 import SettingsFillIcon from './assets/icon/settings-fill-icon';
 import TextIcon from './assets/icon/text-icon';
 import DocIcon from './assets/icon/doc-icon';
