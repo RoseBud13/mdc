@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import '../assets/style/SettingsDrawer.css';
 import CloseIcon from '../assets/icon/close-icon';
+import { useTheme } from '../hooks/useTheme';
 
 interface SettingsDrawerProps {
   isOpen: boolean;
@@ -10,6 +11,7 @@ interface SettingsDrawerProps {
 
 const SettingsDrawer: React.FC<SettingsDrawerProps> = ({ isOpen, onClose }) => {
   const { t, i18n } = useTranslation();
+  const { theme, toggleTheme } = useTheme();
   const drawerRef = useRef<HTMLDivElement>(null);
 
   // Handle click outside to close drawer
@@ -88,13 +90,17 @@ const SettingsDrawer: React.FC<SettingsDrawerProps> = ({ isOpen, onClose }) => {
             </div>
           </div>
 
-          {/* Theme Toggle - Placeholder for future implementation */}
+          {/* Theme Toggle */}
           <div className="settings-section">
             <h3>{t('settings.theme')}</h3>
             <div className="theme-toggle">
               <span>{t('settings.lightTheme')}</span>
               <label className="switch">
-                <input type="checkbox" />
+                <input
+                  type="checkbox"
+                  checked={theme === 'dark'}
+                  onChange={toggleTheme}
+                />
                 <span className="slider round"></span>
               </label>
               <span>{t('settings.darkTheme')}</span>

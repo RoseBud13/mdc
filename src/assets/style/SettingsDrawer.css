@@ -22,7 +22,7 @@
   right: -360px; /* Start offscreen */
   width: 320px;
   height: 100%;
-  background-color: white;
+  background-color: var(--background-color);
   box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
   z-index: 999;
   transition: right 0.3s ease;
@@ -42,20 +42,20 @@
   align-items: center;
   margin-bottom: 20px;
   padding-bottom: 10px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .settings-drawer-header h2 {
   margin: 0;
   font-size: 1.5rem;
-  color: #333;
+  color: var(--text-color);
 }
 
 .close-button {
   background: none;
   border: none;
   cursor: pointer;
-  color: #03a7dd;
+  color: var(--accent-color);
   padding: 5px;
   display: flex;
   align-items: center;
@@ -63,7 +63,7 @@
 }
 
 .close-button:hover {
-  color: #333;
+  color: var(--accent-hover-color);
 }
 
 .settings-drawer-content {
@@ -77,7 +77,7 @@
 .settings-section h3 {
   font-size: 1.1rem;
   margin-bottom: 15px;
-  color: #444;
+  color: var(--text-color);
 }
 
 /* Language option styling */
@@ -89,7 +89,7 @@
 
 .language-option {
   padding: 8px 16px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--border-color);
   border-radius: 20px;
   background-color: #f9f9f9;
   color: #213547;

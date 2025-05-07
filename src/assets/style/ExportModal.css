@@ -13,7 +13,7 @@
 }
 
 .modal-container {
-  background-color: white;
+  background-color: var(--background-color);
   border-radius: 12px;
   padding: 24px;
   width: 90%;
@@ -34,7 +34,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #666;
+  color: var(--accent-color);
   z-index: 1001;
 }
 
@@ -59,7 +59,7 @@
 .modal-title {
   font-size: 20px;
   margin-bottom: 12px;
-  color: #333;
+  color: var(--text-color);
 }
 
 .modal-description {

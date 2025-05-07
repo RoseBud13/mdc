@@ -6,15 +6,44 @@
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
   /* 使用 CSS 变量存储安全区域值，方便子组件使用 */
   --safe-area-inset-top: env(safe-area-inset-top);
   --safe-area-inset-bottom: env(safe-area-inset-bottom);
   --safe-area-inset-left: env(safe-area-inset-left);
   --safe-area-inset-right: env(safe-area-inset-right);
+
+  /* Light theme variables (default) */
+  --text-color: #213547;
+  --background-color: #ffffff;
+  --markdown-area-bg: #f9f9f9;
+  --preview-area-bg: #f9f9f9;
+  --card-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --border-color: #eaeaea;
+  --accent-color: #03a7dd;
+  --accent-hover-color: #0287b3;
+  --button-bg: #f9f9f9;
+  --button-hover-bg: #e0e0e0;
+  --input-bg: #f9f9f9;
+  --fullscreen-bg: #ffffff;
+  --fullscreen-button-bg: rgba(0, 187, 255, 0.2);
+  --fullscreen-button-hover-bg: rgba(0, 187, 255, 0.4);
+}
+
+[data-theme='dark'] {
+  --text-color: rgba(255, 255, 255, 0.87);
+  --background-color: #242424;
+  --markdown-area-bg: #1e1e1e;
+  --preview-area-bg: #1e1e1e;
+  --card-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  --border-color: #333;
+  --accent-color: #03a7dd;
+  --accent-hover-color: #0287b3;
+  --button-bg: #333;
+  --button-hover-bg: #444;
+  --input-bg: #2d2d2d;
+  --fullscreen-bg: #242424;
+  --fullscreen-button-bg: rgba(0, 187, 255, 0.2);
+  --fullscreen-button-hover-bg: rgba(0, 187, 255, 0.4);
 }
 
 *,
@@ -57,17 +86,14 @@ body {
   font-synthesis: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+button {
+  background-color: var(--button-bg);
+}
+
+button:hover {
+  background-color: var(--button-hover-bg);
 }
