@@ -1,4 +1,4 @@
-.modal-overlay {
+.export-modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -12,7 +12,7 @@
   animation: fadeIn 0.2s ease-out;
 }
 
-.modal-container {
+.export-modal-container {
   background-color: var(--background-color);
   border-radius: 12px;
   padding: 24px;
@@ -23,7 +23,7 @@
   animation: slideUp 0.3s ease-out;
 }
 
-.modal-close {
+.export-modal-close {
   position: absolute;
   top: 16px;
   right: 16px;
@@ -38,14 +38,14 @@
   z-index: 1001;
 }
 
-.modal-content {
+.export-modal-content {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
 }
 
-.modal-icon {
+.export-modal-icon {
   font-size: 36px;
   margin-bottom: 16px;
   color: #03a7dd;
@@ -56,26 +56,26 @@
   height: 64px;
 }
 
-.modal-title {
+.export-modal-title {
   font-size: 20px;
   margin-bottom: 12px;
   color: var(--text-color);
 }
 
-.modal-description {
+.export-modal-description {
   color: #666;
   margin-bottom: 24px;
   font-size: 14px;
 }
 
-.modal-actions {
+.export-modal-actions {
   display: flex;
   gap: 12px;
   width: 100%;
   justify-content: center;
 }
 
-.modal-button {
+.export-modal-button {
   padding: 10px 20px;
   border-radius: 6px;
   font-weight: 500;
@@ -84,23 +84,23 @@
   min-width: 120px;
 }
 
-.modal-button.cancel {
+.export-modal-button.cancel {
   background-color: #f0f0f0;
   border: none;
   color: #666;
 }
 
-.modal-button.confirm {
+.export-modal-button.confirm {
   background-color: #03a7dd;
   border: none;
   color: white;
 }
 
-.modal-button.cancel:hover {
+.export-modal-button.cancel:hover {
   background-color: #e0e0e0;
 }
 
-.modal-button.confirm:hover {
+.export-modal-button.confirm:hover {
   background-color: #0292c2;
 }
 

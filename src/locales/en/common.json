@@ -69,6 +69,13 @@
     "language": "Language",
     "theme": "Theme",
     "lightTheme": "Light",
-    "darkTheme": "Dark"
+    "darkTheme": "Dark",
+    "termsOfService": "Terms of Service",
+    "privacyPolicy": "Privacy Policy",
+    "serviceAndPrivacy": "Terms of Service & Privacy Policy"
+  },
+  "artical": {
+    "termsOfServiceContent": "## Terms of Service\n\n### 1. Acceptance of Terms\nBy using this website, you agree to comply with these terms and conditions.\n\n### 2. Use of Service\nYou may use the service for personal and non-commercial purposes only.\n\n### 3. User Content\nYou are responsible for any content you create or share using this service.\n\n### 4. Limitation of Liability\nWe are not liable for any damages resulting from your use of this service.\n\n### 5. Changes to Terms\nWe may update these terms at any time without notice.",
+    "privacyPolicyContent": "## Privacy Policy\n\n### Introduction\nThis Privacy Policy describes how MDC (\"we\", \"our\", or \"us\") handles your information when you use our markdown conversion service.\n\n### Data Collection\nMDC is a static web application that runs entirely in your browser. We do not:\n\n- Collect personal information\n- Store your markdown content on any server\n- Use cookies to track your behavior\n- Share any data with third parties\n- Have a backend server that processes your data\n\n### How Your Data is Handled\n\n### Local Processing\nAll conversion operations are performed locally in your web browser. Your markdown content never leaves your device.\n\n#### Local Storage\nAny saved preferences (such as theme selection or language choice) are stored only in your browser's local storage and remain on your device.\n\n#### Clipboard Access\nWhen you use clipboard features like \"Paste\" or \"Copy\", the app requests permission to access your clipboard. This data is only used for the immediate operation and is not stored or transmitted.\n\n### Third-Party Libraries\nThis application uses open-source libraries for functionality. These libraries run locally in your browser and don't transmit your data.\n\n### Changes to This Policy\nWe may update this Privacy Policy occasionally to reflect changes in our practices or for other operational, legal, or regulatory reasons.\n\n### Contact Us\nIf you have questions about this Privacy Policy, please contact us at contact@qiqiyorozu.com.\n\n*Last updated: May 8, 2025*"
   }
 }

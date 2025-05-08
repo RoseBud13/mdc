@@ -1,8 +1,10 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import '../assets/style/SettingsDrawer.css';
 import CloseIcon from '../assets/icon/close-icon';
 import { useTheme } from '../hooks/useTheme';
+import mdcLogo from '../assets/image/mdc-logo.png';
+import Modal from './Modal';
 
 interface SettingsDrawerProps {
   isOpen: boolean;
@@ -13,24 +15,7 @@ const SettingsDrawer: React.FC<SettingsDrawerProps> = ({ isOpen, onClose }) => {
   const { t, i18n } = useTranslation();
   const { theme, toggleTheme } = useTheme();
   const drawerRef = useRef<HTMLDivElement>(null);
-
-  // Handle click outside to close drawer
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        drawerRef.current &&
-        !drawerRef.current.contains(event.target as Node) &&
-        isOpen
-      ) {
-        onClose();
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [isOpen, onClose]);
+  const [isTermsModalOpen, setIsTermsModalOpen] = useState(false);
 
   // Prevent body scrolling when drawer is open
   useEffect(() => {
@@ -47,6 +32,14 @@ const SettingsDrawer: React.FC<SettingsDrawerProps> = ({ isOpen, onClose }) => {
   // Handle language change
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
+  };
+
+  const openTermsModal = () => {
+    setIsTermsModalOpen(true);
+  };
+
+  const closeTermsModal = () => {
+    setIsTermsModalOpen(false);
   };
 
   return (
@@ -108,8 +101,31 @@ const SettingsDrawer: React.FC<SettingsDrawerProps> = ({ isOpen, onClose }) => {
           </div>
 
           {/* Additional settings sections can be added here */}
+
+          {/* About and copyright */}
+          <div className="settings-footer">
+            <img src={mdcLogo} alt="PWA Logo" className="pwa-logo" />
+            <div className="about-content">
+              <p className="about-clickable" onClick={openTermsModal}>
+                {t('settings.serviceAndPrivacy')}
+              </p>
+              <p>© 2025 MDC. All Rights Reserved.</p>
+              <p>Version 1.0</p>
+              <p>Made with ♡ by Rosebud</p>
+            </div>
+          </div>
         </div>
       </div>
+
+      {/* Terms of Service Modal */}
+      <Modal
+        isOpen={isTermsModalOpen}
+        onClose={closeTermsModal}
+        title={t('settings.serviceAndPrivacy')}
+        content={`${t('artical.termsOfServiceContent')}\n\n---\n\n${t(
+          'artical.privacyPolicyContent'
+        )}`}
+      />
     </>
   );
 };

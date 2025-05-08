@@ -25,24 +25,30 @@ const ExportModal: React.FC<ExportModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-container">
-        <button className="modal-close" onClick={onClose}>
+    <div
+      className="export-modal-overlay"
+      onClick={e => {
+        e.stopPropagation();
+        onClose();
+      }}
+    >
+      <div className="export-modal-container">
+        <button className="export-modal-close" onClick={onClose}>
           <CloseIcon />
         </button>
 
-        <div className="modal-content">
-          <div className="modal-icon">{fileIcon}</div>
+        <div className="export-modal-content">
+          <div className="export-modal-icon">{fileIcon}</div>
 
-          <h3 className="modal-title">{title}</h3>
+          <h3 className="export-modal-title">{title}</h3>
 
-          <p className="modal-description">{description}</p>
+          <p className="export-modal-description">{description}</p>
 
-          <div className="modal-actions">
-            <button className="modal-button cancel" onClick={onClose}>
+          <div className="export-modal-actions">
+            <button className="export-modal-button cancel" onClick={onClose}>
               <Trans i18nKey="button.cancel" />
             </button>
-            <button className="modal-button confirm" onClick={onConfirm}>
+            <button className="export-modal-button confirm" onClick={onConfirm}>
               <Trans i18nKey="button.export" />
             </button>
           </div>

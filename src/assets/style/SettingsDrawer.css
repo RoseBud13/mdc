@@ -173,6 +173,46 @@ input:checked + .slider:before {
   border-radius: 50%;
 }
 
+/* Footer styling */
+.settings-footer {
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 10px 0;
+}
+
+.settings-footer img {
+  width: 35px;
+  height: 35px;
+  border-radius: 5px;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+.about-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.about-content p {
+  font-size: 0.7rem;
+  line-height: 12px;
+  color: #9d9d9d;
+  text-align: center;
+}
+
+.about-clickable {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 /* Mobile responsiveness */
 @media (max-width: 480px) {
   .settings-drawer {
