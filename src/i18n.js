@@ -28,7 +28,7 @@ i18n
   });
 
 // Set the language attribute on the html element
-document.documentElement.lang = i18n.language;
+document.documentElement.lang = i18n.resolvedLanguage;
 
 // Update the document title based on the current language
 const updateDocumentTitle = () => {

@@ -72,7 +72,7 @@ const SettingsDrawer: React.FC<SettingsDrawerProps> = ({ isOpen, onClose }) => {
             <div className="language-options">
               <button
                 className={`language-option ${
-                  i18n.language === 'en' ? 'active' : ''
+                  i18n.resolvedLanguage === 'en' ? 'active' : ''
                 }`}
                 onClick={() => changeLanguage('en')}
               >
@@ -80,7 +80,7 @@ const SettingsDrawer: React.FC<SettingsDrawerProps> = ({ isOpen, onClose }) => {
               </button>
               <button
                 className={`language-option ${
-                  i18n.language === 'zh' ? 'active' : ''
+                  i18n.resolvedLanguage === 'zh' ? 'active' : ''
                 }`}
                 onClick={() => changeLanguage('zh')}
               >
