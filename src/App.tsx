@@ -56,6 +56,14 @@ function App() {
   const deviceType = getDeviceType();
   const isIOS = deviceType === 'ios';
 
+  // Set CSS variable for 100vh
+  // This is a workaround for iOS Safari's 100vh issue
+  if (isIOS) {
+    document.documentElement.style.setProperty('--100vh', '100dvh');
+  } else {
+    document.documentElement.style.setProperty('--100vh', '100vh');
+  }
+
   // Update HTML content when markdown changes
   useEffect(() => {
     const result = marked.parse(markdown);

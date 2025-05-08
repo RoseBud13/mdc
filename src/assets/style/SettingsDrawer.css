@@ -26,7 +26,8 @@
   box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
   z-index: 999;
   transition: right 0.3s ease;
-  padding: var(--status-bar-height) 20px var(--total-footer-height) 20px;
+  padding: calc(var(--status-bar-height) + 10px) 20px
+    calc(var(--total-footer-height) + 10px) 20px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -176,6 +177,7 @@ input:checked + .slider:before {
 @media (max-width: 480px) {
   .settings-drawer {
     width: 280px;
-    padding: var(--status-bar-height) 15px var(--total-footer-height) 15px;
+    padding: calc(var(--status-bar-height) + 10px) 15px
+      calc(var(--total-footer-height) + 10px) 15px;
   }
 }

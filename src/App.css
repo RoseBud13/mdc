@@ -75,7 +75,7 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: calc(100vh - var(--total-header-height));
+  height: calc(var(--100vh) - var(--total-header-height) - 10px);
   padding: 0 0 var(--total-footer-height) 0;
 }
 
@@ -249,6 +249,7 @@
 .fullscreen-content {
   max-width: 800px;
   width: 100%;
+  margin: 10px 0;
   padding: 20px;
   opacity: 0;
   transform: translateY(20px);
