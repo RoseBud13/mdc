@@ -255,29 +255,32 @@ function App() {
   const exportPDF = async () => {
     if (previewRef.current) {
       try {
-        if (isIOS) {
-          // iOS share method for PDF
-          const options = {
-            margin: 10,
-            filename: 'exported.pdf',
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2 },
-            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-          };
+        // Define common options for both iOS and non-iOS
+        const options = {
+          margin: 10,
+          filename: 'exported.pdf',
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: {
+            scale: 2,
+            useCORS: true,
+            logging: true // Enable logging for debugging
+          },
+          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
 
-          const pdf = await html2pdf()
+        if (isIOS) {
+          // For iOS, we'll generate a blob directly and use that
+          const pdfBlob = await html2pdf()
             .from(previewRef.current)
             .set(options)
-            .outputPdf();
-
-          const blob = new Blob([pdf], { type: 'application/pdf' });
+            .outputPdf('blob');
 
           // Use navigator.share API for iOS
           if (navigator.share) {
             try {
               await navigator.share({
                 files: [
-                  new File([blob], 'exported.pdf', {
+                  new File([pdfBlob], 'exported.pdf', {
                     type: 'application/pdf'
                   })
                 ],
@@ -286,24 +289,16 @@ function App() {
             } catch (error) {
               console.error('Error sharing PDF:', error);
               // Fallback if share fails
-              const url = URL.createObjectURL(blob);
+              const url = URL.createObjectURL(pdfBlob);
               window.open(url, '_blank');
             }
           } else {
             // Fallback for older iOS versions
-            const url = URL.createObjectURL(blob);
+            const url = URL.createObjectURL(pdfBlob);
             window.open(url, '_blank');
           }
         } else {
           // Regular PDF download for non-iOS
-          const options = {
-            margin: 10,
-            filename: 'exported.pdf',
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2 },
-            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-          };
-
           await html2pdf().from(previewRef.current).set(options).save();
         }
       } catch (error) {
