@@ -18,6 +18,7 @@ import DocIcon from './assets/icon/doc-icon';
 import Toast from './components/Toast';
 import ExportModal from './components/ExportModal';
 import SettingsDrawer from './components/SettingsDrawer';
+import Tooltip from './components/Tooltip';
 
 function App() {
   const { t, i18n } = useTranslation();
@@ -444,12 +445,16 @@ function App() {
           <div className="app-content">
             <div className="markdown-area">
               <div className="markdown-area-actions">
-                <button onClick={handlePaste}>
-                  <PasteIcon />
-                </button>
-                <button onClick={handleClear}>
-                  <CloseSquareIcon />
-                </button>
+                <Tooltip content={t('tooltip.paste')}>
+                  <button onClick={handlePaste}>
+                    <PasteIcon />
+                  </button>
+                </Tooltip>
+                <Tooltip content={t('tooltip.clear')}>
+                  <button onClick={handleClear}>
+                    <CloseSquareIcon />
+                  </button>
+                </Tooltip>
               </div>
               <textarea
                 value={markdown}
@@ -460,21 +465,31 @@ function App() {
             </div>
             <div className="preview-area">
               <div className="preview-area-actions">
-                <button onClick={handleExportHTML}>
-                  <HtmlIcon />
-                </button>
-                <button onClick={handleExportDocx}>
-                  <DocIcon />
-                </button>
-                <button onClick={handleExportPDF}>
-                  <PdfIcon />
-                </button>
-                <button onClick={handleExportImage}>
-                  <ImageIcon />
-                </button>
-                <button onClick={exportPlainText}>
-                  <TextIcon />
-                </button>
+                <Tooltip content={t('tooltip.exportHtml')}>
+                  <button onClick={handleExportHTML}>
+                    <HtmlIcon />
+                  </button>
+                </Tooltip>
+                <Tooltip content={t('tooltip.exportDocx')}>
+                  <button onClick={handleExportDocx}>
+                    <DocIcon />
+                  </button>
+                </Tooltip>
+                <Tooltip content={t('tooltip.exportPdf')}>
+                  <button onClick={handleExportPDF}>
+                    <PdfIcon />
+                  </button>
+                </Tooltip>
+                <Tooltip content={t('tooltip.exportImage')}>
+                  <button onClick={handleExportImage}>
+                    <ImageIcon />
+                  </button>
+                </Tooltip>
+                <Tooltip content={t('tooltip.exportText')}>
+                  <button onClick={exportPlainText}>
+                    <TextIcon />
+                  </button>
+                </Tooltip>
               </div>
               <div
                 ref={previewRef}

@@ -26,6 +26,15 @@
     "copyError": "无法访问剪贴板。请检查浏览器权限。",
     "contentCleared": "内容已清除"
   },
+  "tooltip": {
+    "paste": "粘贴已复制的文本",
+    "clear": "清除当前文本",
+    "exportHtml": "导出为 HTML 网页",
+    "exportDocx": "导出为 Word 文档",
+    "exportPdf": "导出为 PDF 文档",
+    "exportImage": "导出为图片",
+    "exportText": "复制为纯文本"
+  },
   "modal": {
     "export": {
       "title": "导出为 {{fileType}}",
@@ -37,7 +46,7 @@
     "exportSuccess": "你的内容已成功导出为 {{fileType}}",
     "exportFailed": "导出为 {{fileType}} 失败",
     "exportPlainTextSuccess": "纯文本已复制到剪贴板",
-    "exportPlainTextFailed": "复制纯文本到剪贴板失败",
+    "exportPlainTextFailed": "复制纯文本到剪贴板失败。请检查浏览器权限。",
     "fileType": {
       "html": "HTML 网页",
       "docx": "DOCX Word 文档",

@@ -26,6 +26,15 @@
     "copyError": "Unable to access clipboard. Please check your browser permissions.",
     "contentCleared": "Content cleared"
   },
+  "tooltip": {
+    "paste": "Paste from clipboard",
+    "clear": "Clear content",
+    "exportHtml": "Export as HTML",
+    "exportDocx": "Export as DOCX",
+    "exportPdf": "Export as PDF",
+    "exportImage": "Export as Image",
+    "exportText": "Copy as Plain Text"
+  },
   "modal": {
     "export": {
       "title": "Export as {{fileType}}",
@@ -37,7 +46,7 @@
     "exportSuccess": "Your content was successfully exported as {{fileType}}",
     "exportFailed": "Failed to export as {{fileType}}",
     "exportPlainTextSuccess": "Plain text copied to clipboard",
-    "exportPlainTextFailed": "Failed to copy plain text to clipboard",
+    "exportPlainTextFailed": "Failed to copy plain text to clipboard. Please check your browser permissions.",
     "fileType": {
       "html": "HTML Webpage",
       "docx": "DOCX Word Document",
