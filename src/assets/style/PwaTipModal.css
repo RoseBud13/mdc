@@ -1,0 +1,185 @@
+.pwa-tip-modal-container {
+  position: fixed;
+  z-index: 1000;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  pointer-events: none;
+}
+
+.pwa-tip-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  pointer-events: auto;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.pwa-tip-modal {
+  position: relative;
+  background-color: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  max-width: 90%;
+  width: 360px;
+  margin-bottom: 15px;
+  z-index: 1000;
+  pointer-events: auto;
+  animation: slideUp 0.3s ease-out;
+  position: relative;
+}
+
+.pwa-tip-modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4px;
+  color: var(--accent-color);
+}
+
+.pwa-tip-modal h2 {
+  font-size: 18px;
+  margin-top: 0;
+  margin-bottom: 16px;
+  text-align: center;
+  color: #333;
+}
+
+.pwa-tip-modal-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.pwa-tip-modal-image {
+  text-align: center;
+}
+
+.pwa-tip-modal-image img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  border: 1px solid #eaeaea;
+}
+
+.pwa-tip-modal-description {
+  padding: 10px 0;
+  text-align: center;
+}
+
+.pwa-tip-modal-description p {
+  margin: 0;
+  font-size: 14px;
+  color: #666;
+}
+
+.pwa-tip-modal-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.pwa-tip-modal-step {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pwa-tip-modal-step-icon {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #f0f0f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+}
+
+.pwa-tip-modal-step-number {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: #03a7dd;
+  color: white;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.pwa-tip-modal-step p {
+  margin: 0;
+  flex: 1;
+}
+
+.pwa-tip-modal-tail {
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px solid white;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .pwa-tip-modal {
+    background-color: #202124;
+    color: #e8eaed;
+  }
+
+  .pwa-tip-modal h2 {
+    color: #e8eaed;
+  }
+
+  .pwa-tip-modal-step-icon {
+    background-color: #333;
+  }
+
+  .pwa-tip-modal-tail {
+    border-top-color: #202124;
+  }
+}

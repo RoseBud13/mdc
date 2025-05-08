@@ -5,6 +5,14 @@
   "placeholder": {
     "markdownTextarea": "Write your markdown here..."
   },
+  "pwa": {
+    "install": {
+      "title": "Add to Home Screen",
+      "description": "Add this website to your home screen for an App-like smoother experience.",
+      "step1": "Tap the Share button",
+      "step2": "Tap \"Add to Home Screen\""
+    }
+  },
   "button": {
     "cancel": "Cancel",
     "confirm": "Confirm",

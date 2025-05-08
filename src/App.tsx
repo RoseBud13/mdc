@@ -19,6 +19,7 @@ import Toast from './components/Toast';
 import ExportModal from './components/ExportModal';
 import SettingsDrawer from './components/SettingsDrawer';
 import Tooltip from './components/Tooltip';
+import PwaTipModal from './components/PwaTipModal';
 
 function App() {
   const { t, i18n } = useTranslation();
@@ -547,6 +548,9 @@ function App() {
         isOpen={isSettingsOpen}
         onClose={() => setIsSettingsOpen(false)}
       />
+
+      {/* PWA Installation Tip Modal */}
+      <PwaTipModal />
     </>
   );
 }

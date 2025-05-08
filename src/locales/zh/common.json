@@ -5,6 +5,14 @@
   "placeholder": {
     "markdownTextarea": "在这里写下你的 Markdown..."
   },
+  "pwa": {
+    "install": {
+      "title": "添加到主屏幕",
+      "description": "将此页面添加到你的主屏幕，享受 App 般的丝滑体验。",
+      "step1": "点击分享按钮",
+      "step2": "点击 \"添加到主屏幕\""
+    }
+  },
   "button": {
     "cancel": "取消",
     "confirm": "确认",
