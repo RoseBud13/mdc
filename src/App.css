@@ -15,7 +15,7 @@
   align-items: center;
   justify-content: flex-start;
   height: 100%;
-  padding: 0 1em var(--total-footer-height) 1em;
+  padding: var(--status-bar-height) 1em var(--total-footer-height) 1em;
   background-color: var(--background-color);
   color: var(--text-color);
 }
@@ -75,8 +75,8 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: calc(100% - var(--total-header-height) - var(--total-footer-height));
-  padding: 0 0 15px 0;
+  height: calc(100vh - var(--total-header-height));
+  padding: 0 0 var(--total-footer-height) 0;
 }
 
 .app-content {
@@ -209,7 +209,7 @@
   justify-content: center;
   align-items: flex-start;
   overflow-y: auto;
-  padding: 20px;
+  padding: var(--status-bar-height) 20px var(--total-footer-height) 20px;
   opacity: 0;
   transition: opacity 0.3s ease-in-out;
 }
@@ -221,7 +221,7 @@
 .fullscreen-close {
   color: var(--accent-color);
   position: fixed;
-  top: 20px;
+  top: calc(var(--status-bar-height) + 20px);
   right: 20px;
   background: none;
   border: none;
